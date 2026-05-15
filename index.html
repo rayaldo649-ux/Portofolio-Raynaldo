@@ -139,23 +139,28 @@ nav {
 }
 .photo-bg-shape {
   position: absolute;
-  width: 90%; height: 90%;
+  width: 88%; height: 88%;
   background: linear-gradient(135deg, #FF6B35, #FBBF24);
-  border-radius: 42% 58% 60% 40% / 42% 42% 58% 58%;
-  top: 5%; left: 5%;
-  animation: morphShape 10s ease-in-out infinite alternate;
+  border-radius: 28px;
+  top: 8%; left: 6%;
+  transform: rotate(3deg);
+  transition: transform 0.4s ease;
 }
-@keyframes morphShape {
-  from { border-radius: 42% 58% 60% 40% / 42% 42% 58% 58%; }
-  to   { border-radius: 58% 42% 40% 60% / 58% 58% 42% 42%; }
+.hero-photo-wrap:hover .photo-bg-shape {
+  transform: rotate(6deg) scale(1.02);
 }
 .photo-img {
   position: relative; z-index: 1; width: 100%;
-  border-radius: 42% 58% 60% 40% / 42% 42% 58% 58%;
-  animation: morphShape 10s ease-in-out infinite alternate;
+  border-radius: 20px;
   object-fit: cover; object-position: center top;
   aspect-ratio: 4/5; display: block;
   box-shadow: 0 28px 64px rgba(255,107,53,0.28);
+  transform: rotate(-2deg);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.hero-photo-wrap:hover .photo-img {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 36px 80px rgba(255,107,53,0.38);
 }
 .floating-chip {
   position: absolute; z-index: 3;
@@ -165,13 +170,14 @@ nav {
   font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: #1a1a2e;
   animation: chipFloat 4s ease-in-out infinite alternate;
   white-space: nowrap;
+  backdrop-filter: blur(8px);
 }
 @keyframes chipFloat {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-9px); }
+  from { transform: translateY(0) rotate(-1deg); }
+  to   { transform: translateY(-9px) rotate(1deg); }
 }
-.chip-1 { bottom: 15%; left: -12%; animation-delay: 0s; }
-.chip-2 { top: 8%; right: -8%; animation-delay: -2.2s; }
+.chip-1 { bottom: 12%; left: -14%; animation-delay: 0s; }
+.chip-2 { top: 6%; right: -10%; animation-delay: -2.2s; }
 
 /* TENTANG */
 #tentang {
@@ -322,11 +328,131 @@ footer {
   .chip-1 { left: -4%; }
   .chip-2 { right: -4%; }
 }
+
+/* ===== TAMBAHAN: CUSTOM CURSOR ===== */
+body { cursor: none; }
+.cur-dot {
+  width: 10px; height: 10px;
+  background: #FF6B35;
+  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+.cur-ring {
+  width: 38px; height: 38px;
+  border: 2px solid rgba(255,107,53,0.5);
+  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: left 0.13s ease, top 0.13s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+.cur-dot.big { width: 18px; height: 18px; background: #FBBF24; }
+.cur-ring.big { width: 56px; height: 56px; border-color: rgba(251,191,36,0.6); }
+
+/* ===== TAMBAHAN: MARQUEE ===== */
+.marquee-wrap {
+  background: #1a1a2e;
+  overflow: hidden;
+  padding: 0.9rem 0;
+  border-top: 2px solid #FF6B35;
+  border-bottom: 2px solid #FF6B35;
+}
+.marquee-inner {
+  display: flex;
+  gap: 0;
+  animation: marqueeRun 16s linear infinite;
+  white-space: nowrap;
+  width: max-content;
+}
+.marquee-inner span {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #F7F3EE; padding: 0 2rem;
+}
+.marquee-inner span.sep { color: #FF6B35; padding: 0 0.4rem; }
+@keyframes marqueeRun {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ===== TAMBAHAN: SECTION KONTAK ===== */
+#kontak-section {
+  padding: 5rem 5rem;
+  background: #F7F3EE;
+  position: relative; overflow: hidden;
+}
+#kontak-section::before {
+  content: '';
+  position: absolute; left: -80px; bottom: -80px;
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(255,107,53,0.08), transparent 70%);
+}
+.kontak-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+}
+.kontak-info { position: relative; z-index: 1; }
+.kontak-info h3 {
+  font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+  color: #1a1a2e; margin-bottom: 1.8rem; letter-spacing: 0.04em;
+}
+.kontak-item {
+  display: flex; align-items: flex-start; gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+.kontak-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, #FF6B35, #FBBF24);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.kontak-text .kontak-label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: #bbb; margin-bottom: 0.15rem;
+}
+.kontak-text .kontak-val {
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  font-size: 0.9rem; color: #1a1a2e;
+}
+.kontak-ig-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, #FF6B35, #FBBF24);
+  color: white; border-radius: 999px; text-decoration: none;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem;
+  box-shadow: 0 6px 24px rgba(255,107,53,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.kontak-ig-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(255,107,53,0.5); }
+.kontak-map-placeholder {
+  background: white; border-radius: 20px;
+  padding: 2.5rem 2rem; text-align: center;
+  box-shadow: 0 4px 28px rgba(255,107,53,0.1);
+  border: 1px solid rgba(255,107,53,0.12);
+}
+.kontak-map-placeholder .map-emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+.kontak-map-placeholder p {
+  font-family: 'Syne', sans-serif; font-weight: 700; color: #1a1a2e;
+  font-size: 1rem; margin-bottom: 0.3rem;
+}
+.kontak-map-placeholder small { color: #999; font-size: 0.8rem; }
+
+/* ===== PARALLAX BLOB ENHANCEMENTS ===== */
+.blob { will-change: transform; }
+
+@media (max-width: 860px) {
+  #kontak-section { padding: 4rem 1.5rem; }
+  .kontak-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
 <div class="cursor-glow" id="glow"></div>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
 
 <nav>
   <div class="nav-logo">RHI.</div>
@@ -334,7 +460,7 @@ footer {
     <li><a href="#tentang">Tentang</a></li>
     <li><a href="#prestasi">Prestasi</a></li>
     <li><a href="#minat">Minat</a></li>
-    <li><a href="#kontak">Kontak</a></li>
+    <li><a href="#kontak-section">Kontak</a></li>
   </ul>
 </nav>
 
@@ -374,12 +500,36 @@ footer {
   </div>
 </section>
 
+<!-- MARQUEE TICKER -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>Taekwondo</span><span class="sep">✦</span>
+    <span>Fotografer</span><span class="sep">✦</span>
+    <span>Basket</span><span class="sep">✦</span>
+    <span>Ju-Jitsu</span><span class="sep">✦</span>
+    <span>Parfum</span><span class="sep">✦</span>
+    <span>Fisika</span><span class="sep">✦</span>
+    <span>SMA Wardaya</span><span class="sep">✦</span>
+    <span>Jakarta</span><span class="sep">✦</span>
+    <span>3× Juara 1</span><span class="sep">✦</span>
+    <span>Taekwondo</span><span class="sep">✦</span>
+    <span>Fotografer</span><span class="sep">✦</span>
+    <span>Basket</span><span class="sep">✦</span>
+    <span>Ju-Jitsu</span><span class="sep">✦</span>
+    <span>Parfum</span><span class="sep">✦</span>
+    <span>Fisika</span><span class="sep">✦</span>
+    <span>SMA Wardaya</span><span class="sep">✦</span>
+    <span>Jakarta</span><span class="sep">✦</span>
+    <span>3× Juara 1</span><span class="sep">✦</span>
+  </div>
+</div>
+
 <section id="tentang">
   <div class="section-eyebrow reveal">Siapa Saya</div>
   <h2 class="section-title reveal">Tentang Raynaldo</h2>
   <div class="about-grid">
     <div class="about-bio reveal-left">
-      <p>Halo! Saya Raynaldo Hariadi Indrasaputra. Saya bersekolah di SMA Wardaya dan saya lahir pada 20 Maret 2010. Saya percaya bahwa dengan iman dan kerja keras, segala sesuatu bisa dicapai..</p>
+      <p>Halo! Saya Raynaldo Hariadi Indrasaputra. Saya bersekolah di SMA Wardaya dan saya lahir pada 20 Maret 2010. Saya percaya bahwa dengan iman dan kerja keras, segala sesuatu bisa dicapai.</p>
       <p>Di luar sekolah, saya adalah atlet Taekwondo dan Ju-Jitsu berprestasi di tingkat kota hingga nasional. Saya juga aktif di bidang fotografi dan punya ketertarikan mendalam pada dunia parfum.</p>
       <p>Mata pelajaran favorit saya adalah Fisika — saya suka bagaimana ilmu itu menjelaskan cara kerja alam semesta dari hal terkecil sekalipun.</p>
     </div>
@@ -454,9 +604,38 @@ footer {
   </div>
 </section>
 
+<!-- SECTION KONTAK -->
+<section id="kontak-section">
+  <div class="section-eyebrow reveal">Hubungi Saya</div>
+  <h2 class="section-title reveal">Kontak</h2>
+  <div class="kontak-grid">
+    <div class="kontak-info reveal-left">
+      <h3>Info Kontak</h3>
+      <div class="kontak-item">
+        <div class="kontak-icon">📍</div>
+        <div class="kontak-text">
+          <div class="kontak-label">Alamat</div>
+          <div class="kontak-val">Kebon Jeruk Baru A7, Jakarta</div>
+        </div>
+      </div>
+      <div class="kontak-item">
+        <div class="kontak-icon">📞</div>
+        <div class="kontak-text">
+          <div class="kontak-label">Nomor Telepon</div>
+          <div class="kontak-val">+62 877 8110 9997</div>
+        </div>
+      </div>
+        </div>
+      </a>
+    </div>
+    
+    </div>
+  </div>
+</section>
+
 <footer id="kontak">
   <div class="footer-name">Raynaldo Hariadi Indrasaputra</div>
-  <p class="footer-sub"> Hai</p>
+  <p class="footer-sub">Hai</p>
   <a href="https://www.instagram.com/r4ynaldo_putra/" target="_blank" class="footer-ig">
     📷 &nbsp; @r4ynaldo_putra
   </a>
@@ -464,11 +643,36 @@ footer {
 </footer>
 
 <script>
+  // Cursor glow (asli)
   const glow = document.getElementById('glow');
   document.addEventListener('mousemove', e => {
     glow.style.left = e.clientX + 'px';
     glow.style.top = e.clientY + 'px';
   });
+
+  // Custom cursor (tambahan)
+  const dot = document.getElementById('curDot');
+  const ring = document.getElementById('curRing');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let rx = mx, ry = my;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+  (function animateRing() {
+    rx += (mx - rx) * 0.13;
+    ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a, button, .minat-card, .prestasi-item, .fact-card, .btn-primary, .btn-outline').forEach(el => {
+    el.addEventListener('mouseenter', () => { dot.classList.add('big'); ring.classList.add('big'); });
+    el.addEventListener('mouseleave', () => { dot.classList.remove('big'); ring.classList.remove('big'); });
+  });
+
+  // Scroll reveal (asli)
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -478,6 +682,17 @@ footer {
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+
+  // Parallax blob (tambahan)
+  document.addEventListener('mousemove', e => {
+    const blobs = document.querySelectorAll('.blob');
+    const xRatio = (e.clientX / window.innerWidth - 0.5) * 18;
+    const yRatio = (e.clientY / window.innerHeight - 0.5) * 18;
+    blobs.forEach((b, i) => {
+      const factor = (i + 1) * 0.4;
+      b.style.transform = `translate(${xRatio * factor}px, ${yRatio * factor}px) scale(1)`;
+    });
+  });
 </script>
 </body>
 </html>
